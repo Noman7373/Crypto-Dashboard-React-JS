@@ -5,4 +5,13 @@ export const theme = extendTheme({
     heading: "Ubuntu",
     body: "Ubuntu",
   },
+  // 1. Using a style object
+
+  styles: {
+    global: {
+      "html, body": {
+        bg: "#f3f7f7",
+      },
+    },
+  },
 });

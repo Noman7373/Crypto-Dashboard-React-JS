@@ -3,18 +3,26 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  Button,
   Heading,
   HStack,
   Box,
   Icon,
 } from "@chakra-ui/react";
 import { FaRegCircleUser } from "react-icons/fa6";
+import { TiThMenu } from "react-icons/ti";
 
-const Topnav = ({title}) => {
+const Topnav = ({ title, onOpen }) => {
   return (
-    <Box>
-      <HStack maxW="80rem" mx="auto" h="16" justify="space-between" px="32">
+    <Box px="4" bg= "#fff">
+      <HStack maxW="70rem" mx="auto" h="16" justify="space-between">
+        <Icon
+          as={TiThMenu}
+          onClick={onOpen}
+          display={{
+            lg: "none",
+            base: "block",
+          }}
+        />
         <Heading fontSize="28px" fontWeight="medium">
           {title}
         </Heading>

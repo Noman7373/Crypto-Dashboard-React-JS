@@ -19,7 +19,20 @@ const Sidemenu = () => {
   ];
 
   return (
-    <Stack justify= 'space-between' boxShadow="lg" w="16rem" h="100vh">
+    <Stack
+      justify="space-between"
+      bg= "white"
+      w="16rem"
+      h="100vh"
+      boxShadow={{
+        base: "none",
+        lg: "lg",
+      }}
+      width={{
+        base: "full",
+        lg: "16rem",
+      }}
+    >
       <Box>
         <Heading
           as="h1"
@@ -53,7 +66,7 @@ const Sidemenu = () => {
           ))}
         </Box>
       </Box>
-      <Box mt="6" mx="3" mb= '6'>
+      <Box mt="6" mx="3" mb="6">
         <HStack
           borderRadius="10px"
           mx="3"
