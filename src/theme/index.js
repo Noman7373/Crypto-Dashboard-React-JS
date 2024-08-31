@@ -1,5 +1,4 @@
 import { Button, extendTheme, withDefaultColorScheme } from "@chakra-ui/react";
- 
 
 export const theme = extendTheme(
   {
@@ -102,12 +101,26 @@ export const theme = extendTheme(
         },
       },
     },
-    components : {
-      Button : {
-        baseStyle : {
-          fontWeight : "bold",
-          borderRadius : "10px",
-
+    components: {
+      Button: {
+        baseStyle: {
+          fontWeight: "bold",
+          borderRadius: "10px",
+        },
+      },
+      FormLabel: {
+        baseStyle: {
+          fontSize: "sm",
+        },
+      },
+      variants: {
+        outlines: {
+          field: {
+            h: "28px",
+            borderRadius: "8px",
+            fontSize: "sm",
+            colorScheme: "blue",
+          },
         },
       },
     },

@@ -1,11 +1,12 @@
-import React from 'react'
+import DashboardLayout from "../../components/DashboardLayout";
+import SupportCard from "./components/SupportCard";
 
 const Support = () => {
   return (
-    <div>
-      
-    </div>
-  )
-}
+    <DashboardLayout>
+      <SupportCard />
+    </DashboardLayout>
+  );
+};
 
-export default Support
+export default Support;

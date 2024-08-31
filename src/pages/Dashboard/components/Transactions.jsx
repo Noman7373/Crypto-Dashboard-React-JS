@@ -1,4 +1,13 @@
-import { Box, Divider, Flex, Grid, Icon, Stack, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Divider,
+  Flex,
+  Grid,
+  Icon,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import { CustumCard } from "../../../Chakra/Customcart";
 import { TbCurrencyBahraini } from "react-icons/tb";
 import { PiCurrencyBtcFill } from "react-icons/pi";
@@ -29,7 +38,7 @@ const Transactions = () => {
     },
   ];
   return (
-    <CustumCard>
+    <CustumCard h="full" bg= 'white'>
       <Text mb="6" fontSize="sm" color="black.80">
         Recent Transaction
       </Text>
@@ -62,6 +71,9 @@ const Transactions = () => {
           );
         })}
       </Stack>
+      <Button w="full" mt="6" colorScheme="gray">
+        View All
+      </Button>
     </CustumCard>
   );
 };
