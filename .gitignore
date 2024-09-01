@@ -9,6 +9,9 @@ lerna-debug.log*
 eslint.config.js*
 package-lock.json*
 package.json*
+server*
+app*
+.env*
 
 
 node_modules

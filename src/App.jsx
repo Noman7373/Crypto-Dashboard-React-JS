@@ -3,12 +3,13 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 
 import TransactionPage from "./pages/Transactions/TransactionPage";
 import Support from "./pages/support/Support";
+import Signup from "./pages/Auth/signup/Signup";
 
 const App = () => {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Dashboard/>,
+      element: <Dashboard />,
     },
     {
       path: "/transaction",
@@ -17,6 +18,10 @@ const App = () => {
     {
       path: "/support",
       element: <Support />,
+    },
+    {
+      path: "/signup",
+      element: <Signup />,
     },
   ]);
   return (
