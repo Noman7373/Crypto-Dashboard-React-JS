@@ -9,29 +9,27 @@ import {
   Box,
   Container,
 } from "@chakra-ui/react";
-import { MdEmail } from "react-icons/md";
-import { Link } from "react-router-dom";
 
-const Registrationemail = () => {
+import { Link } from "react-router-dom";
+import { BsPatchCheckFill } from "react-icons/bs";
+
+const VerificationSuccess = () => {
   return (
     <Container>
       <Center minH="100vh">
         <Card>
           <VStack spacing={6}>
-            <Icon color="p.purple" boxSize="3rem" as={MdEmail} />
+            <Icon color="green" boxSize="3rem" as={BsPatchCheckFill} />
             <Text textStyle="h4" fontWeight="medium" color="p.black">
-              Email Verification
+              Successfully Registration
             </Text>
             <Text textAlign="center" textStyle="p2" color="black.60">
-              We have sent instructions on how to reset your password to{" "}
-              <Box as="b" color="p.black">
-                jenny.wilson@gmail.com
-              </Box>{" "}
-              If you didn’t receive it, click the button below.{" "}
+              Hurray! You have successfully created your account. Enter the app
+              to explore all it’s features.
             </Text>
             <Box w="full">
-              <Link to="/forgot-password">
-                <Button w="full ">Re-send Email</Button>
+              <Link to="/signin">
+                <Button w="full ">Enter the App</Button>
               </Link>
             </Box>
           </VStack>
@@ -41,4 +39,4 @@ const Registrationemail = () => {
   );
 };
 
-export default Registrationemail;
+export default VerificationSuccess;

@@ -5,9 +5,13 @@ import TransactionPage from "./pages/Transactions/TransactionPage";
 import Support from "./pages/support/Support";
 import Signup from "./pages/Auth/signup/Signup";
 import Signin from "./pages/Auth/singin/Signin";
-import Registrationemail from "./pages/Auth/Registrationemail/Registersuccess";
-import Registersuccess from "./pages/Auth/Registrationemail/Registersuccess";
+
 import Forgotpassword from "./pages/Auth/Forgotpasswrod/Forgotpassword";
+import Forgotpasswordsent from "./pages/Auth/Forgotpasswordsent/Forgotpasswordsent";
+import Registrationemail from "./pages/Auth/Registersuccess/Registrationemail";
+import VerificationSuccess from "./pages/Auth/VerificationSuccess/VerificationSuccess";
+import Resetpasswordsucess from "./pages/Auth/Resetpassword/Resetpasswordsucess";
+import PasswordReset from "./pages/Auth/PasswordReset/PasswordReset";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -31,17 +35,31 @@ const App = () => {
       path: "/signin",
       element: <Signin />,
     },
+
     {
       path: "/register-verify-email",
       element: <Registrationemail />,
     },
     {
-      path: "/register-success",
-      element: <Registersuccess />,
+      path: "/email-verification-success",
+      element: <VerificationSuccess />,
     },
+
     {
       path: "/forgot-password",
       element: <Forgotpassword />,
+    },
+    {
+      path: "/forgot-success",
+      element: <Forgotpasswordsent />,
+    },
+    {
+      path: "/reset-password",
+      element: <PasswordReset />,
+    },
+    {
+      path: "/reset-password-success",
+      element: <Resetpasswordsucess />,
     },
   ]);
   return (

@@ -34,7 +34,7 @@ const Signup = () => {
     <Container bg="white">
       <Center minH="100vh">
         <Card>
-          <Text textStyle="h1">Welcome to Crypto App</Text>
+          <Text textStyle="h1" fontWeight="medium">Welcome to Crypto App</Text>
           <Text textStyle="p2" color="black.60" mt="4">
             Create a free account by filling data below.
           </Text>

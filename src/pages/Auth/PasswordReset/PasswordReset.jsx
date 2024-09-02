@@ -2,12 +2,10 @@ import {
   Box,
   Button,
   Center,
-  Checkbox,
   Container,
   FormControl,
   FormErrorMessage,
   FormLabel,
-  HStack,
   Input,
   Stack,
   Text,
@@ -15,86 +13,78 @@ import {
 import React from "react";
 import { Link } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
-import { object, string } from "yup";
+import { object, ref, string } from "yup";
 import Card from "../../../components/Card";
 
-const SigninValidationScheme = object({
-  email: string().email("Email is invalid").required("Email is required"),
+const resetValidationScheme = object({
   password: string()
     .min(8, "Password must be at least 8 characters")
     .required("Pssword is required"),
+  repeatpasswrod: string()
+    .oneOf([ref("Password "), null], "Password must match")
+    .required("Repeat password is required"),
 });
 
-const Signin = () => {
+const PasswordReset = () => {
   return (
     <Container bg="white">
       <Center minH="100vh">
         <Card>
-          <Text textStyle="h1" fontWeight="medium">Welcome to Crypto App</Text>
-          <Text textStyle="p2" color="black.60" mt="4">
-            Enter your credentials to access the account.
+          <Text fontWeight="medium" textStyle="h4" color="p.black">
+          Reset Password
+          </Text>
+          <Text textStyle="p" color="p.black" mt="2rem">
+            Enter your new password.
           </Text>
           <Formik
             initialValues={{
-              email: "",
               password: "",
+              repeatpassword: "",
             }}
             onSubmit={(value) => {
               console.log(value);
             }}
-            validationSchema={SigninValidationScheme}
+            validationSchema={resetValidationScheme}
           >
             <Form>
               <Stack mt="10" spacing={6}>
-                <Field name="email">
+                <Field name="password">
                   {({ field, meta }) => (
                     <FormControl isInvalid={!!(meta.error && meta.touched)}>
-                      <FormLabel htmlFor="email">Email</FormLabel>
+                      <FormLabel htmlFor="password">New Passwoed</FormLabel>
                       <Input
                         {...field}
-                        name="email"
-                        type="email"
-                        placeholder="name@gamil.com"
+                        name="password"
+                        type="password"
+                        placeholder="Enter new password"
                       />
                       <FormErrorMessage>{meta.error}</FormErrorMessage>
                     </FormControl>
                   )}
                 </Field>
 
-                <Field name="password">
+                <Field name="repeatpassword">
                   {({ field, meta }) => (
                     <FormControl isInvalid={!!(meta.error && meta.touched)}>
-                      <FormLabel htmlFor="password">Password</FormLabel>
+                      <FormLabel htmlFor="password">
+                        Repeat New Password
+                      </FormLabel>
                       <Input
                         {...field}
                         type="password"
                         autoComplete="on"
-                        name="password"
-                        placeholder="Enter Your Password"
+                        name="repeatpassword"
+                        placeholder="Enter Repeat Password"
                       />
                       <FormErrorMessage>{meta.error}</FormErrorMessage>
                     </FormControl>
                   )}
                 </Field>
 
-                <HStack justify="space-between">
-                  <Checkbox>
-                    <Text textStyle="p3">Remember me</Text>
-                  </Checkbox>{" "}
-                  <Link to="/forgot-password">
-                    {" "}
-                    <Text textStyle="p3" as="span" color="p.purple">
-                      Forget password?
-                    </Text>
-                  </Link>
-                </HStack>
                 <Box>
-                  <Button w="full" type="submit" colorScheme="gray">
-                    Log In
-                  </Button>
-                  <Link to="/signup">
+                  <Link to="/reset-password-success">
                     <Button variant="outline" mt="3" width="full">
-                      Create new acount
+                      Reset Password
                     </Button>
                   </Link>
                 </Box>
@@ -107,4 +97,4 @@ const Signin = () => {
   );
 };
 
-export default Signin;
+export default PasswordReset;
