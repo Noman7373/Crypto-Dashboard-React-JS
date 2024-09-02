@@ -33,7 +33,7 @@ export const theme = extendTheme(
           color: "p.black",
           lineHeight: {
             base: "34px",
-            md: "34px",
+            md: "36px",
           },
         },
         h2: {
@@ -96,7 +96,7 @@ export const theme = extendTheme(
       styles: {
         global: {
           "html, body": {
-            bg: "#f3f7f7",
+            bg: "white",
           },
         },
       },
