@@ -5,7 +5,17 @@ import PortfolioSection from "./components/PortfolioSection";
 import Transactions from "./components/Transactions";
 import Infocard from "./components/Infocard";
 
+import { fetchExample } from "../../Api/Query/exampleQuery";
+import { useQuery } from "react-query";
 const Dashboard = () => {
+  // using useQuery to perform network call
+  useQuery({
+    queryKey: ["example"],
+    queryFn: fetchExample,
+  });
+
+  // if (exampleQuery.isLoading) return <div>Loading....</div>;
+
   return (
     <>
       <DashboardLayout title="Dashboard">

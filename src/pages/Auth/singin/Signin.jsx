@@ -11,12 +11,15 @@ import {
   Input,
   Stack,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import React from "react";
 import { Link } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import { object, string } from "yup";
 import Card from "../../../components/Card";
+import { useMutation } from "react-query";
+import { signinUser } from "../../../Api/Query/userQuery";
 
 const SigninValidationScheme = object({
   email: string().email("Email is invalid").required("Email is required"),
@@ -26,11 +29,28 @@ const SigninValidationScheme = object({
 });
 
 const Signin = () => {
+  //  for changes request like DELETE, PUT, PATCH, POST we use [useMutation hook] fro react-query
+  const toast = useToast();
+  const { mutate, isLoading } = useMutation({
+    mutationKey: ["signin"],
+    mutationFn: signinUser,
+    onSuccess: (data) => {},
+    onError: (error) => {
+      toast({
+        title: "Signin Error",
+        description: error.message,
+        status: "error",
+      });
+    },
+  });
+
   return (
     <Container bg="white">
       <Center minH="100vh">
         <Card>
-          <Text textStyle="h1" fontWeight="medium">Welcome to Crypto App</Text>
+          <Text textStyle="h1" fontWeight="medium">
+            Welcome to Crypto App
+          </Text>
           <Text textStyle="p2" color="black.60" mt="4">
             Enter your credentials to access the account.
           </Text>
@@ -39,8 +59,8 @@ const Signin = () => {
               email: "",
               password: "",
             }}
-            onSubmit={(value) => {
-              console.log(value);
+            onSubmit={(values) => {
+              mutate(values);
             }}
             validationSchema={SigninValidationScheme}
           >
@@ -89,7 +109,12 @@ const Signin = () => {
                   </Link>
                 </HStack>
                 <Box>
-                  <Button w="full" type="submit" colorScheme="gray">
+                  <Button
+                    w="full"
+                    type="submit"
+                    colorScheme="gray"
+                    isLoading={isLoading}
+                  >
                     Log In
                   </Button>
                   <Link to="/signup">

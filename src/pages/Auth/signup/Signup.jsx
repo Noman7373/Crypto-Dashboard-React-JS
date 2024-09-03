@@ -10,12 +10,15 @@ import {
   Input,
   Stack,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
-import { object, ref, string } from "yup";
+import { object, string } from "yup";
 import Card from "../../../components/Card";
+import { useMutation } from "react-query";
+import { signupUser } from "../../../Api/Query/userQuery";
 
 const signUpValidationScheme = object({
   name: string().required("Name is required"),
@@ -24,17 +27,38 @@ const signUpValidationScheme = object({
   password: string()
     .min(8, "Password must be at least 8 characters")
     .required("Pssword is required"),
-  repeatPasswrod: string()
-    .oneOf([ref("Password "), null], "Password must match")
-    .required("Repeat password is required"),
+  // repeatPassword: string()
+  //   .oneOf([ref("Password "), null], "Password must match")
+  //   .required("Repeat password is required"),
 });
 
 const Signup = () => {
+  const navigate = useNavigate();
+  const toast = useToast();
+  const { mutate, isLoading } = useMutation({
+    mutationKey: ["signup"],
+    mutationFn: signupUser,
+    onSuccess: (data) => {
+      navigate("/register-verify-email", {
+        // state: { email: data.email },
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Signup Error",
+        description: error.message,
+        status: "error",
+      });
+    },
+  });
+
   return (
     <Container bg="white">
       <Center minH="100vh">
         <Card>
-          <Text textStyle="h1" fontWeight="medium">Welcome to Crypto App</Text>
+          <Text textStyle="h1" fontWeight="medium">
+            Welcome to Crypto App
+          </Text>
           <Text textStyle="p2" color="black.60" mt="4">
             Create a free account by filling data below.
           </Text>
@@ -44,10 +68,14 @@ const Signup = () => {
               surname: "",
               email: "",
               password: "",
-              repeatPasswrod: "",
             }}
-            onSubmit={(value) => {
-              console.log(value);
+            onSubmit={(values) => {
+              mutate({
+                name: values.name,
+                name: values.surname,
+                email: values.email,
+                password: values.password,
+              });
             }}
             validationSchema={signUpValidationScheme}
           >
@@ -60,6 +88,7 @@ const Signup = () => {
                         <FormLabel htmlFor="name">Name</FormLabel>
                         <Input
                           {...field}
+                          autoComplete="name"
                           name="name"
                           type="text"
                           placeholder="Enter Your Name"
@@ -78,6 +107,7 @@ const Signup = () => {
                           name="surname"
                           type="text"
                           placeholder="Arthur"
+                          autoComplete="sur-name"
                         />
                         <FormErrorMessage>{meta.error}</FormErrorMessage>
                       </FormControl>
@@ -91,6 +121,7 @@ const Signup = () => {
                       <FormLabel htmlFor="email">Email</FormLabel>
                       <Input
                         {...field}
+                        autoComplete="email"
                         name="email"
                         type="email"
                         placeholder="name@gamil.com"
@@ -107,27 +138,9 @@ const Signup = () => {
                       <Input
                         {...field}
                         type="password"
-                        autoComplete="on"
+                        autoComplete="current-password"
                         name="password"
                         placeholder="Enter Your Password"
-                      />
-                      <FormErrorMessage>{meta.error}</FormErrorMessage>
-                    </FormControl>
-                  )}
-                </Field>
-
-                <Field name="repeatPassword">
-                  {({ field, meta }) => (
-                    <FormControl isInvalid={!!(meta.error && meta.touched)}>
-                      <FormLabel htmlFor="repeatPassword">
-                        Repeat Password
-                      </FormLabel>
-                      <Input
-                        {...field}
-                        autoComplete="on"
-                        type="password"
-                        name="repeatPassword"
-                        placeholder="Enter Your Repeat Password"
                       />
                       <FormErrorMessage>{meta.error}</FormErrorMessage>
                     </FormControl>
@@ -142,7 +155,9 @@ const Signup = () => {
                     </Text>
                   </Text>
                 </Checkbox>
-                <Button type="submit">Create Account</Button>
+                <Button type="submit" isLoading={isLoading}>
+                  Create Account
+                </Button>
                 <Text textStyle="p3" color="black.60" textAlign="center">
                   Already have an account?{" "}
                   <Link to="/signin">
