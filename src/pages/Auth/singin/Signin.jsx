@@ -13,7 +13,7 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import React from "react";
+
 import { Link } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import { object, string } from "yup";
@@ -29,6 +29,7 @@ const SigninValidationScheme = object({
 });
 
 const Signin = () => {
+  
   //  for changes request like DELETE, PUT, PATCH, POST we use [useMutation hook] fro react-query
   const toast = useToast();
   const { mutate, isLoading } = useMutation({
@@ -72,6 +73,7 @@ const Signin = () => {
                       <FormLabel htmlFor="email">Email</FormLabel>
                       <Input
                         {...field}
+                        autoComplete="email"
                         name="email"
                         type="email"
                         placeholder="name@gamil.com"
@@ -88,7 +90,7 @@ const Signin = () => {
                       <Input
                         {...field}
                         type="password"
-                        autoComplete="on"
+                        autoComplete="password"
                         name="password"
                         placeholder="Enter Your Password"
                       />

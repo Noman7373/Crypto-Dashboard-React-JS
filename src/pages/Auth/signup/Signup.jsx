@@ -12,7 +12,7 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import { object, string } from "yup";
@@ -21,27 +21,28 @@ import { useMutation } from "react-query";
 import { signupUser } from "../../../Api/Query/userQuery";
 
 const signUpValidationScheme = object({
-  name: string().required("Name is required"),
-  surname: string().required("Surname is required"),
+  firstName: string().required("firstName is required"),
+  lastName: string().required("lastName is required"),
   email: string().email("Email is invalid").required("Email is required"),
   password: string()
     .min(8, "Password must be at least 8 characters")
-    .required("Pssword is required"),
+    .required("Password is required"),
   // repeatPassword: string()
   //   .oneOf([ref("Password "), null], "Password must match")
   //   .required("Repeat password is required"),
 });
 
 const Signup = () => {
+  const [email, setEmail] = useState("");
   const navigate = useNavigate();
   const toast = useToast();
   const { mutate, isLoading } = useMutation({
     mutationKey: ["signup"],
     mutationFn: signupUser,
-    onSuccess: (data) => {
-      navigate("/register-verify-email", {
-        // state: { email: data.email },
-      });
+    onSettled: (data) => {
+      if (email !== "") {
+        navigate(`/register-verify-email/${email}`);
+      }
     },
     onError: (error) => {
       toast({
@@ -64,15 +65,16 @@ const Signup = () => {
           </Text>
           <Formik
             initialValues={{
-              name: "",
-              surname: "",
+              firstName: "",
+              lastName: "",
               email: "",
               password: "",
             }}
             onSubmit={(values) => {
+              setEmail(values.email);
               mutate({
-                name: values.name,
-                name: values.surname,
+                firstName: values.firstName,
+                lastName: values.lastName,
                 email: values.email,
                 password: values.password,
               });
@@ -82,32 +84,32 @@ const Signup = () => {
             <Form>
               <Stack mt="10" spacing={6}>
                 <Flex gap="4">
-                  <Field name="name">
+                  <Field name="firstName">
                     {({ field, meta }) => (
                       <FormControl isInvalid={!!(meta.error && meta.touched)}>
-                        <FormLabel htmlFor="name">Name</FormLabel>
+                        <FormLabel htmlFor="firstName">First Name</FormLabel>
                         <Input
                           {...field}
-                          autoComplete="name"
-                          name="name"
+                          autoComplete="first-Name"
+                          name="firstName"
                           type="text"
-                          placeholder="Enter Your Name"
+                          placeholder="Enter Your First Name"
                         />
                         <FormErrorMessage>{meta.error}</FormErrorMessage>
                       </FormControl>
                     )}
                   </Field>
 
-                  <Field name="surname">
+                  <Field name="lastName">
                     {({ field, meta }) => (
                       <FormControl isInvalid={!!(meta.error && meta.touched)}>
-                        <FormLabel htmlFor="surname">Surname</FormLabel>
+                        <FormLabel htmlFor="lastName">Last Name</FormLabel>
                         <Input
                           {...field}
-                          name="surname"
+                          name="lastName"
                           type="text"
-                          placeholder="Arthur"
-                          autoComplete="sur-name"
+                          placeholder="Enter your Last Name"
+                          autoComplete="last-Name"
                         />
                         <FormErrorMessage>{meta.error}</FormErrorMessage>
                       </FormControl>

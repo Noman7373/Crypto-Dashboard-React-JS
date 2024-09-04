@@ -61,6 +61,7 @@ const Forgotpassword = () => {
                     <FormLabel htmlFor="email">Email</FormLabel>
                     <Input
                       {...field}
+                      autoComplete="email"
                       name="email"
                       type="email"
                       placeholder="name@gamil.com"

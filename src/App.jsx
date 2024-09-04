@@ -37,11 +37,11 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "/register-verify-email",
+    path: "/register-verify-email/:email",
     element: <Registrationemail />,
   },
   {
-    path: "/email-verification-success",
+    path: "/email-verify/:token",
     element: <VerificationSuccess />,
   },
 
