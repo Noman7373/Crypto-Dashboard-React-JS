@@ -12,6 +12,8 @@ package.json*
 server*
 app*
 .env*
+src/Api/
+
 
 
 node_modules
