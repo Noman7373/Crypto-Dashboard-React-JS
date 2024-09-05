@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Card from "../../../components/Card";
 import {
   Icon,
@@ -9,7 +9,6 @@ import {
   Box,
   Container,
   useToast,
-  Spinner,
 } from "@chakra-ui/react";
 
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -20,30 +19,25 @@ import { emailVerifySuccess } from "../../../Api/Query/userQuery";
 const VerificationSuccess = () => {
   const toast = useToast();
   const navigate = useNavigate();
-
-  /// get token from URL
   const { token } = useParams();
-
-  const { isSuccess, isLoading } = useQuery({
-    queryKey: ["verify-token"],
+  const { isSuccess } = useQuery({
+    queryKey: ["email-success"],
     queryFn: () => emailVerifySuccess({ token }),
     enabled: !!token,
     onError: (error) => {
       toast({
-        title: "signUp error",
+        title: "Verify Error",
         description: error.message,
         status: "error",
       });
+
       navigate("/signup");
     },
+
+    // navigate("/signup")
   });
 
-  if (isLoading)
-    return (
-      <Center h="100vh">
-        <Spinner />
-      </Center>
-    );
+  useEffect(() => {});
 
   return (
     <Container>

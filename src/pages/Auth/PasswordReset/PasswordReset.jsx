@@ -7,14 +7,18 @@ import {
   FormErrorMessage,
   FormLabel,
   Input,
+  Spinner,
   Stack,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import React from "react";
-import { Link } from "react-router-dom";
-import { Formik, Form, Field } from "formik";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { Formik, Form, Field} from "formik";
 import { object, ref, string } from "yup";
 import Card from "../../../components/Card";
+import { useMutation } from "react-query";
+import { verifyForgotToken } from "../../../Api/Query/userQuery";
 
 const resetValidationScheme = object({
   password: string()
@@ -26,12 +30,42 @@ const resetValidationScheme = object({
 });
 
 const PasswordReset = () => {
+  const toast = useToast();
+  const navigate = useNavigate();
+
+  /// get token from URL
+  const { token } = useParams();
+
+  const { mutate, isLoading } = useMutation({
+    mutationKey: ["verify-token"],
+    mutationFn: verifyForgotToken,
+    enabled: !!token,
+    onError: (error) => {
+      toast({
+        title: "signUp error",
+        description: error.message,
+        status: "error",
+      });
+      navigate("/signup");
+    },
+    onSettled: () => {
+      navigate("/reset-password-success");
+    },
+  });
+
+  if (isLoading)
+    return (
+      <Center h="100vh">
+        <Spinner />
+      </Center>
+    );
+
   return (
     <Container bg="white">
       <Center minH="100vh">
         <Card>
           <Text fontWeight="medium" textStyle="h4" color="p.black">
-          Reset Password
+            Reset Password
           </Text>
           <Text textStyle="p" color="p.black" mt="2rem">
             Enter your new password.
@@ -43,6 +77,7 @@ const PasswordReset = () => {
             }}
             onSubmit={(value) => {
               console.log(value);
+              mutate({ token, password: value.password });
             }}
             validationSchema={resetValidationScheme}
           >
@@ -51,9 +86,10 @@ const PasswordReset = () => {
                 <Field name="password">
                   {({ field, meta }) => (
                     <FormControl isInvalid={!!(meta.error && meta.touched)}>
-                      <FormLabel htmlFor="password">New Passwoed</FormLabel>
+                      <FormLabel htmlFor="password">New Password</FormLabel>
                       <Input
                         {...field}
+                        autoComplete="password"
                         name="password"
                         type="password"
                         placeholder="Enter new password"
@@ -72,7 +108,7 @@ const PasswordReset = () => {
                       <Input
                         {...field}
                         type="password"
-                        autoComplete="on"
+                        autoComplete="repeat-password"
                         name="repeatpassword"
                         placeholder="Enter Repeat Password"
                       />

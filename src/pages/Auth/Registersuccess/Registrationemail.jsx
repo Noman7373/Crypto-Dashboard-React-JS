@@ -9,30 +9,35 @@ import {
   Box,
   Container,
   useToast,
+
 } from "@chakra-ui/react";
 import { MdEmail } from "react-icons/md";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useMutation } from "react-query";
 import { sendVerificationEmail } from "../../../Api/Query/userQuery";
 
 const Registrationemail = () => {
   const toast = useToast();
   const { email } = useParams();
+  const navigate = useNavigate();
+  
+  // const { email } = useParams();
+  console.log("Registrationemail component:", email);
 
-
-  if (email === "") {
+  if (!email) {
     return <Center h="100vh">Invalid Email</Center>;
   }
   // const navigate = useNavigate();
   const { mutate, isLoading } = useMutation({
     mutationKey: ["send-verification-email"],
-    mutationFn: () => sendVerificationEmail({ email }),
+    mutationFn:sendVerificationEmail,
     onSettled: (data) => {
       console.log(data);
+      navigate(`/email-verify/${email}`)
     },
     onError: (error) => {
       toast({
-        title: "Signup Error",
+        title: "Resend Error",
         description: error.message,
         status: "error",
       });
@@ -41,14 +46,12 @@ const Registrationemail = () => {
   });
 
   useEffect(() => {
-    mutate({ email });
+    if (email) {
+      mutate();
+    }
   }, [email]);
 
-  // if (isLoading) {
-  //   <Center h="100vh">
-  //     <Spinner />
-  //   </Center>;
-  // }
+
   return (
     <Container>
       <Center minH="100vh">
@@ -76,9 +79,7 @@ const Registrationemail = () => {
               <Button
                 w="full "
                 variant="outline"
-                onClick={() => {
-                  mutate({ email });
-                }}
+                onClick={() => mutate({ email })}
                 isLoading={isLoading}
               >
                 Re-send Email

@@ -50,11 +50,11 @@ const router = createBrowserRouter([
     element: <Forgotpassword />,
   },
   {
-    path: "/forgot-success",
+    path: "/forgot-success/:email",
     element: <Forgotpasswordsent />,
   },
   {
-    path: "/reset-password",
+    path: "/forgot-password-verify/:token",
     element: <PasswordReset />,
   },
   {
@@ -63,14 +63,12 @@ const router = createBrowserRouter([
   },
 ]);
 
-
 const App = () => {
   // using  React Query
   const queryClient = new QueryClient();
   return (
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
-
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

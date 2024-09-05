@@ -40,11 +40,12 @@ const Signup = () => {
     mutationKey: ["signup"],
     mutationFn: signupUser,
     onSettled: (data) => {
-      if (email !== "") {
-        navigate(`/register-verify-email/${email}`);
-      }
+      console.log("signupsucess", data);
+      // navigate(`/register-verify-email/${email}`);
     },
     onError: (error) => {
+      console.log("signuperror", error);
+
       toast({
         title: "Signup Error",
         description: error.message,
@@ -71,6 +72,8 @@ const Signup = () => {
               password: "",
             }}
             onSubmit={(values) => {
+              console.log("formValues", values);
+
               setEmail(values.email);
               mutate({
                 firstName: values.firstName,
@@ -78,6 +81,7 @@ const Signup = () => {
                 email: values.email,
                 password: values.password,
               });
+              navigate(`/register-verify-email/${values.email}`);
             }}
             validationSchema={signUpValidationScheme}
           >
@@ -126,7 +130,7 @@ const Signup = () => {
                         autoComplete="email"
                         name="email"
                         type="email"
-                        placeholder="name@gamil.com"
+                        placeholder="name@gmail.com"
                       />
                       <FormErrorMessage>{meta.error}</FormErrorMessage>
                     </FormControl>
