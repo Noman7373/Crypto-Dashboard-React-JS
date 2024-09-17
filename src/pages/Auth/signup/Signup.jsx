@@ -39,9 +39,13 @@ const Signup = () => {
   const { mutate, isLoading } = useMutation({
     mutationKey: ["signup"],
     mutationFn: signupUser,
-    onSettled: (data) => {
-      console.log("signupsucess", data);
-      // navigate(`/register-verify-email/${email}`);
+    onSuccess: (data) => {
+      console.log(email);
+
+      if (email !== "") {
+        navigate(`/register-verify-email/${email}`);
+        console.log("signupsucess", data);
+      }
     },
     onError: (error) => {
       console.log("signuperror", error);
@@ -81,7 +85,7 @@ const Signup = () => {
                 email: values.email,
                 password: values.password,
               });
-              navigate(`/register-verify-email/${values.email}`);
+              // navigate(`/register-verify-email/${email}`);
             }}
             validationSchema={signUpValidationScheme}
           >

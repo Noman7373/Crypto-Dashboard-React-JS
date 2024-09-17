@@ -20,7 +20,9 @@ const VerificationSuccess = () => {
   const toast = useToast();
   const navigate = useNavigate();
   const { token } = useParams();
-  const { isSuccess } = useQuery({
+  // console.log(token);
+
+  const { isSuccess,isLoading } = useQuery({
     queryKey: ["email-success"],
     queryFn: () => emailVerifySuccess({ token }),
     enabled: !!token,
